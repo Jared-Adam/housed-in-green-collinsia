@@ -35,6 +35,7 @@ unique(gh_2_clean$date)
 gh_2_mass <- gh_2_clean %>% 
   filter(date == '2025-05-19') %>% 
   select(!c(dad, stage, diameter_mm, leaf_count, fruit_count)) %>% 
+  drop_na() %>% 
   print(n = Inf)
 
 gh_2_fitness <- gh_2_clean %>% 
@@ -42,3 +43,8 @@ gh_2_fitness <- gh_2_clean %>%
   select(!mass_g) %>% 
   print(n = 10)
 unique(gh_2_fitness$date)
+
+
+
+
+

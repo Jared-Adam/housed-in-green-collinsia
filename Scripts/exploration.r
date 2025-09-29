@@ -1,3 +1,6 @@
+# packages ####
+library(RColorBrewer)
+
 # data ####
 
 # exp 1
@@ -7,7 +10,7 @@ gh_1_clean
 gh_2_clean
 gh_2_fitness
 gh_2_mass
-
+gh_2_long
 
 
 # p1 exploration ####
@@ -56,3 +59,43 @@ p2_plots <- map(p2_resp,
 p2_list <- map(p2_plots, ~cowplot::plot_grid(plotlist = .x))
 ggarrange(plotlist = p2_list)
 
+
+# GAM gh 2 long fitness ####
+
+gh_2_long %>% 
+  ggplot(aes(x = dad, y = value, color = trt, fill = trt))+
+  geom_smooth(method = 'gam',
+              formula = y ~ s(x,k =4))+
+  facet_grid(~fitness)+
+  theme_bw()
+
+
+
+
+
+# GAM gh 2 x drought ####
+gh_2_fitness %>% 
+  mutate(trt = case_when(trt == 'C' ~ 'Control',
+                         trt == 'E' ~ 'Edge',
+                         trt == 'HP' ~ 'Hole Punch',
+                         trt == 'MV' ~ 'Mid Vein',
+                         trt == 'T' ~ 'Leaf Tip')) %>% 
+  ggplot(aes(x = dad, y = fruit_count, color = trt, fill = trt))+
+  geom_smooth(method = 'gam',
+              formula = y ~ s(x, k =4),
+              size = 2)+
+  theme_bw()+
+  theme(axis.title = element_text(size=24),
+        panel.grid = element_blank(),
+        plot.subtitle = element_text(size=20, hjust = 0.5),
+        axis.text = element_text(size = 24),
+        legend.text = element_text(size = 18),
+        axis.ticks.length = unit(.25, 'cm'),
+        legend.title = element_text(size = 20))+
+  guides(color=guide_legend(title="Damage Treatment"), fill = FALSE)+
+  scale_fill_brewer(palette = 'Dark2')+
+  scale_color_brewer(palette = 'Dark2')+
+  labs(x = "Days after damage",
+       y = "Fruit count")
+
+  

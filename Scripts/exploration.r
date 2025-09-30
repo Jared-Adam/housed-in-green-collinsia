@@ -36,6 +36,11 @@ p1_plots <- map(p1_resp,
 p1_list <- map(p1_plots, ~cowplot::plot_grid(plotlist = .x))
 ggarrange(plotlist = p1_list)
 
+gh_1_clean %>% 
+  ggplot(aes(x = trt))+
+  geom_bar(aes(fill = mass_g))
+
+
 # p2 exploration ####
 
 p2_exp <- names(gh_2_fitness[3])
@@ -70,9 +75,6 @@ gh_2_long %>%
   theme_bw()
 
 
-
-
-
 # GAM gh 2 x drought ####
 gh_2_fitness %>% 
   mutate(trt = case_when(trt == 'C' ~ 'Control',
@@ -98,4 +100,10 @@ gh_2_fitness %>%
   labs(x = "Days after damage",
        y = "Fruit count")
 
-  
+
+
+
+
+
+
+

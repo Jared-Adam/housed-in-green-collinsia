@@ -1,11 +1,12 @@
 # packages #####
 library(tidyverse)
 library(ggpubr)
+library(here)
 
 
 # import ####
-gh_1 <- X2025_7_21_GH_pilot1_JSA
-gh_2 <- X2025_4_17_GH_pilot2_JSA
+gh_1 <- read.csv(here('data', '2025-7-21_GH_pilot1_JSA.csv'))
+gh_2 <- read.csv(here('data', '2025-4-17_GH_pilot2_JSA.csv'))
 
 # gh 1 ####
 

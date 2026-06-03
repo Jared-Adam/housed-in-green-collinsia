@@ -101,9 +101,40 @@ gh_2_fitness %>%
        y = "Fruit count")
 
 
+# gh2 damage treatment
+gh_2_plant = gh_2_clean %>%
+  mutate(
+    plantID = paste(trt, plant, sep='')
+  ) %>%
+  group_by(plantID) %>%
+  summarize(
+    trt = first(trt),
+    fruit_count = sum(fruit_count, na.rm=TRUE)
+  )
+
+ggplot(data = gh_2_plant, aes(x=trt, y=fruit_count)) +
+  geom_jitter() +
+  scale_y_sqrt() +
+  stat_summary(color='red')
 
 
+# Focus on C, HP, and T for proposals
+gh_2_plant_CHPT = gh_2_plant %>%
+  subset(trt == 'C' | trt == 'HP' | trt == 'T')
+m = glm(fruit_count ~ trt, data = gh_2_plant_CHPT, family='poisson')
+summary(m)
+m0 = glm(fruit_count ~ 1, data = gh_2_plant_CHPT, family='poisson')
+anova(m0,m)
 
 
+m.means = exp(c(coef(m)[1], coef(m)[1] + coef(m)[2], coef(m)[1] + coef(m)[3]))
+m.means
+(m.means[1] - m.means[3]) / (m.means[1] - m.means[2])
 
+(m.means[1] - m.means[2]) / m.means[1]
+(m.means[1] - m.means[3]) / m.means[1]
 
+gh_2_plant_CHPT %>%
+  ggplot(aes(x=trt, y=fruit_count)) +
+  geom_jitter() +
+  stat_summary(col='purple')

@@ -20,8 +20,8 @@ gh_1_clean <- gh_1 %>%
   mutate_at(vars(4:5), as.numeric) %>% 
   mutate(growth = as.factor(gs)) %>% 
   select(!c(g_full, g_spec, gs)) %>% 
-  relocate(date, trt, plant, growth) %>% 
-  print(n = 50)
+  relocate(date, trt, plant, growth) #%>% 
+  #print(n = 50)
 
 # gh 2 ####
 
@@ -30,22 +30,22 @@ gh_2_clean <- gh_2 %>%
   mutate(date = as.Date(date, "%m/%d/%Y")) %>% 
   relocate(date, dad, trt, stage, plant) %>% 
   mutate_at(vars(2:6), as.factor) %>% 
-  mutate_at(vars(7:10), as.numeric) %>% 
-  print(n = 50)
+  mutate_at(vars(7:10), as.numeric) #%>% 
+  #print(n = 50)
 
 unique(gh_2_clean$date)
 
 gh_2_mass <- gh_2_clean %>% 
   filter(date == '2025-05-19') %>% 
   select(!c(dad, stage, diameter_mm, leaf_count, fruit_count)) %>% 
-  drop_na() %>% 
-  print(n = Inf)
+  drop_na() #%>% 
+  #print(n = Inf)
 
 gh_2_fitness <- gh_2_clean %>% 
   filter(date != '2025-05-19') %>% 
   select(!mass_g) %>% 
-  mutate(dad = as.numeric(levels(dad))[dad]) %>% 
-  print(n = 10)
+  mutate(dad = as.numeric(levels(dad))[dad]) #%>% 
+  #print(n = 10)
 
 # gh 2 long for leaf count and fruit count ####
 

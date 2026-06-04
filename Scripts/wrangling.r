@@ -54,7 +54,20 @@ gh_2_long <- gh_2_fitness %>%
   pivot_longer(cols = leaf_count:fruit_count, names_to = 'fitness', values_to = 'value') %>% 
   mutate(fitness = as.factor(fitness))
 
-
+# gh 2 by plant - one row per plant for overall impacts ####
+gh_2_plant = gh_2_clean %>%
+  mutate(
+    plantID = paste(trt, plant, sep='') # Need a unique ID across trts
+  ) %>%
+  group_by(plantID) %>%
+  summarize(
+    trt = first(trt),
+    water_trt = first(water_trt),
+    fruit_count = sum(fruit_count, na.rm=TRUE),
+    mass_g_final = sum(mass_g, na.rm=TRUE),
+    leaf_count_max = max(leaf_count, na.rm=TRUE),
+    diameter_mm_max = max(diameter_mm, na.rm=TRUE)
+  )
 
 
 

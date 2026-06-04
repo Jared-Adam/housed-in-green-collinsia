@@ -101,17 +101,7 @@ gh_2_fitness %>%
        y = "Fruit count")
 
 
-# gh2 damage treatment
-gh_2_plant = gh_2_clean %>%
-  mutate(
-    plantID = paste(trt, plant, sep='')
-  ) %>%
-  group_by(plantID) %>%
-  summarize(
-    trt = first(trt),
-    fruit_count = sum(fruit_count, na.rm=TRUE)
-  )
-
+# gh2 damage treatment - plant totals
 ggplot(data = gh_2_plant, aes(x=trt, y=fruit_count)) +
   geom_jitter() +
   scale_y_sqrt() +

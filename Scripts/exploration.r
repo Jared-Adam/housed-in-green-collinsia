@@ -1,6 +1,7 @@
 # packages ####
 library(RColorBrewer)
 library(marginaleffects)
+library(performance)
 
 # data ####
 
@@ -124,6 +125,7 @@ gh_2_plant_CHPT = gh_2_plant %>%
 # Fit models
 m = glm(fruit_count ~ trt, data = gh_2_plant_CHPT, family='poisson')
 summary(m)
+r2_mcfadden(m)
 m0 = glm(fruit_count ~ 1, data = gh_2_plant_CHPT, family='poisson')
 anova(m0,m)
 
@@ -161,7 +163,7 @@ p
 
 ggsave('plots/Collinsia_damagetype_prelim.pdf',
        p,
-       width = 3,
-       height = 3,
+       width = 2.5,
+       height = 2.5,
        units='in',
        dpi=600)

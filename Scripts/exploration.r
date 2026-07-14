@@ -1,5 +1,6 @@
 # packages ####
 library(RColorBrewer)
+library(marginaleffects)
 
 # data ####
 
@@ -110,7 +111,8 @@ ggplot(data = gh_2_plant, aes(x=trt, y=fruit_count)) +
 
 # Focus on C, HP, and T for proposals
 gh_2_plant_CHPT = gh_2_plant %>%
-  subset(trt == 'C' | trt == 'HP' | trt == 'T')
+  subset(trt == 'C' | trt == 'HP' | trt == 'T') %>%
+  droplevels()
 m = glm(fruit_count ~ trt, data = gh_2_plant_CHPT, family='poisson')
 summary(m)
 m0 = glm(fruit_count ~ 1, data = gh_2_plant_CHPT, family='poisson')
@@ -128,3 +130,10 @@ gh_2_plant_CHPT %>%
   ggplot(aes(x=trt, y=fruit_count)) +
   geom_jitter() +
   stat_summary(col='purple')
+
+p = plot_predictions(
+  m,
+  condition = 'trt',
+  newdata=datagrid()
+)
+

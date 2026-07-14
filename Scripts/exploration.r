@@ -163,7 +163,7 @@ p
 
 ggsave('plots/Collinsia_damagetype_prelim.pdf',
        p,
-       width = 2.5,
-       height = 2.5,
+       width = 2.75,
+       height = 2.75,
        units='in',
        dpi=600)

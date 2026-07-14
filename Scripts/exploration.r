@@ -117,8 +117,8 @@ gh_2_plant_CHPT = gh_2_plant %>%
   droplevels() %>%
   mutate(trt = fct_recode(trt,
                           "Control" = "C",
-                          "Hole punch"   = "HP",
-                          "Scissors"       = "T"
+                          "Dispersed"   = "HP",
+                          "Contiguous"       = "T"
   ))
 
 # Fit models
@@ -161,7 +161,7 @@ p
 
 ggsave('plots/Collinsia_damagetype_prelim.pdf',
        p,
-       width = 2.5,
-       height = 2.5,
+       width = 3,
+       height = 3,
        units='in',
        dpi=600)

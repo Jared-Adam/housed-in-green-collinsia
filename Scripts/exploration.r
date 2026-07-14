@@ -109,16 +109,25 @@ ggplot(data = gh_2_plant, aes(x=trt, y=fruit_count)) +
   stat_summary(color='red')
 
 
-# Focus on C, HP, and T for proposals
+# Focus on C, HP, and T for proposals ####
+
+# Subset data and prep
 gh_2_plant_CHPT = gh_2_plant %>%
   subset(trt == 'C' | trt == 'HP' | trt == 'T') %>%
-  droplevels()
+  droplevels() %>%
+  mutate(trt = fct_recode(trt,
+                          "Control" = "C",
+                          "Hole punch"   = "HP",
+                          "Scissors"       = "T"
+  ))
+
+# Fit models
 m = glm(fruit_count ~ trt, data = gh_2_plant_CHPT, family='poisson')
 summary(m)
 m0 = glm(fruit_count ~ 1, data = gh_2_plant_CHPT, family='poisson')
 anova(m0,m)
 
-
+# Calc effect sizes
 m.means = exp(c(coef(m)[1], coef(m)[1] + coef(m)[2], coef(m)[1] + coef(m)[3]))
 m.means
 (m.means[1] - m.means[3]) / (m.means[1] - m.means[2])
@@ -126,14 +135,25 @@ m.means
 (m.means[1] - m.means[2]) / m.means[1]
 (m.means[1] - m.means[3]) / m.means[1]
 
+# Plot raw data
 gh_2_plant_CHPT %>%
   ggplot(aes(x=trt, y=fruit_count)) +
   geom_jitter() +
   stat_summary(col='purple')
 
+# Plot model predictions
+mytheme =
+  theme_bw() +
+  theme(axis.title = element_text(size=12),
+        legend.title = element_text(size=12),
+        panel.grid = element_blank(),
+        plot.subtitle = element_text(size=12, hjust = 0.5))
+
 p = plot_predictions(
   m,
   condition = 'trt',
   newdata=datagrid()
-)
-
+) +
+  mytheme +
+  labs(x= 'Damage treatment', y = 'Fruit production')
+p

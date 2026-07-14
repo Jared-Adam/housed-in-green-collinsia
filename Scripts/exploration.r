@@ -156,4 +156,12 @@ p = plot_predictions(
 ) +
   mytheme +
   labs(x= 'Damage treatment', y = 'Fruit production')
+
 p
+
+ggsave('plots/Collinsia_damagetype_prelim.pdf',
+       p,
+       width = 2.5,
+       height = 2.5,
+       units='in',
+       dpi=600)

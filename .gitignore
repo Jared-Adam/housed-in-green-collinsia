@@ -3,3 +3,5 @@
 .RData
 .Ruserdata
 .positai
+*.Rproj
+.DS_Store
